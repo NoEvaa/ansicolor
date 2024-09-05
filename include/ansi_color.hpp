@@ -110,7 +110,7 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
     }
     // foreground: 30-39
     // background: 40-49
-    int co = detail::_toConsoleCode(ac.color_.spec_);
+    int co        = detail::_toConsoleCode(ac.color_.spec_);
     int co_offset = (ac.target_ == ColorTarget::kBackground) ? 40 : 30;
     ost << '[' << (co + co_offset);
     if (co == 8) {
