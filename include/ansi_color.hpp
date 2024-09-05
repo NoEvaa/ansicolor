@@ -25,8 +25,10 @@
 #define AYIN_ANSI_COLOR_HPP_
 
 #include <cstdint>
-namespace ansi_color {
+#include <ostream>
+#include <cassert>
 
+namespace ansi_color {
 enum class ColorSpec {
     kReset = 0,
     kDefault,
@@ -48,7 +50,6 @@ enum class ColorTarget {
 };
 
 namespace detail {
-
 struct RgbColor {
     std::uint8_t red_   = 0;
     std::uint8_t green_ = 0;
@@ -69,8 +70,59 @@ struct Color {
         : spec_(ColorSpec::kRgb), rgb_(_r, _g, _b) {}
 };
 
+/**
+ * See `https://www.man7.org/linux/man-pages/man4/console_codes.4.html`
+ * for detail of console codes.
+ */
+inline int _toConsoleCode(ColorSpec _spec) {
+    switch (_spec) {
+        case ColorSpec::kBlack:   return 0;
+        case ColorSpec::kRed:     return 1;
+        case ColorSpec::kGreen:   return 2;
+        case ColorSpec::kBrown:   return 3;
+        case ColorSpec::kBlue:    return 4;
+        case ColorSpec::kMagenta: return 5;
+        case ColorSpec::kCyan:    return 6;
+        case ColorSpec::kWhite:   return 7;
+        case ColorSpec::kRgb:     return 8;
+        case ColorSpec::kDefault: return 9;
+        default: break;
+    }
+    assert(0); // unreachable
+    return -1;
+}
 } // ansi_color::detail
 
-} // ansi_color
+struct AnsiColor {
+    ColorTarget   target_ = ColorTarget::kForeground;
+    detail::Color color_;
 
+    constexpr AnsiColor() = default;
+    constexpr AnsiColor(detail::Color const & _c,
+                        ColorTarget _tgt = ColorTarget::kForeground)
+        : target_(_tgt), color_(_c) {}
+};
+
+inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
+    ost << '\033';
+    if (ac.color_.spec_ == ColorSpec::kReset) {
+        return (ost << "[0m");
+    }
+    // foreground: 30-39
+    // background: 40-49
+    int co = detail::_toConsoleCode(ac.color_.spec_);
+    int co_offset = (ac.target_ == ColorTarget::kBackground) ? 40 : 30;
+    ost << '[' << (co + co_offset);
+    if (co == 8) {
+        // use rgb color
+        auto & _rgb = ac.color_.rgb_;
+        ost << ";2;"
+            << int(_rgb.red_) << ';'
+            << int(_rgb.green_) << ';'
+            << int(_rgb.blue_); 
+    }
+    ost << 'm';
+    return ost;
+}
+} // ansi_color
 #endif
