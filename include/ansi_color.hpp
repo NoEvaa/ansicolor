@@ -24,6 +24,7 @@
 #ifndef AYIN_ANSI_COLOR_HPP_
 #define AYIN_ANSI_COLOR_HPP_
 
+#include <cstdint>
 namespace ansi_color {
 
 enum class ColorSpec {
@@ -47,6 +48,17 @@ enum class ColorTarget {
 };
 
 namespace detail {
+
+struct RgbColor {
+    std::uint8_t red_   = 0;
+    std::uint8_t green_ = 0;
+    std::uint8_t blue_  = 0;
+
+    constexpr RgbColor() = default;
+    constexpr RgbColor(int _r, int _g, int _b)
+        : red_(_r & 0xff), green_(_g & 0xff), blue_(_b & 0xff) {};
+};
+
 } // ansi_color::detail
 
 } // ansi_color
