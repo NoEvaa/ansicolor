@@ -56,7 +56,17 @@ struct RgbColor {
 
     constexpr RgbColor() = default;
     constexpr RgbColor(int _r, int _g, int _b)
-        : red_(_r & 0xff), green_(_g & 0xff), blue_(_b & 0xff) {};
+        : red_(_r & 0xff), green_(_g & 0xff), blue_(_b & 0xff) {}
+};
+
+struct Color {
+    ColorSpec spec_ = ColorSpec::kReset;
+    RgbColor  rgb_;
+
+    constexpr Color() = default;
+    constexpr Color(ColorSpec _spec) : spec_(_spec) {}
+    constexpr Color(int _r, int _g, int _b)
+        : spec_(ColorSpec::kRgb), rgb_(_r, _g, _b) {}
 };
 
 } // ansi_color::detail
