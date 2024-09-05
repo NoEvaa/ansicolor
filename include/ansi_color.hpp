@@ -74,8 +74,8 @@ struct Color {
  * See `https://www.man7.org/linux/man-pages/man4/console_codes.4.html`
  * for detail of console codes.
  */
-inline int _toConsoleCode(ColorSpec _spec) {
-    switch (_spec) {
+inline int _toConsoleCode(ColorSpec _cs) {
+    switch (_cs) {
         case ColorSpec::kBlack:   return 0;
         case ColorSpec::kRed:     return 1;
         case ColorSpec::kGreen:   return 2;
