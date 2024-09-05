@@ -26,6 +26,29 @@
 
 namespace ansi_color {
 
+enum class ColorSpec {
+    kReset = 0,
+    kDefault,
+    kRgb,
+
+    kBlack = 10,
+    kRed,
+    kGreen,
+    kBrown,
+    kBlue,
+    kMagenta,
+    kCyan,
+    kWhite,
+};
+
+enum class ColorTarget {
+    kForeground = 0,
+    kBackground,
+};
+
+namespace detail {
+} // ansi_color::detail
+
 } // ansi_color
 
 #endif
