@@ -8,9 +8,9 @@
 
 ## 特色
 
-- 轻量级：仅有一个头文件
+- 轻量级：仅一个头文件
 
-- 简单便捷：仅需使用一个结构体和两个枚举类
+- 简单便捷：仅需使用一个结构体以及两个枚举类
 
 ## 快速开始
 
@@ -48,24 +48,44 @@ AnsiColor(ColorSpec::kWhite, ColorTarget::kBackground);
 
 ```
 
+| **ColorSpec** | **描述**   |
+|---------------|------------|
+| **kNone**     | 什么都不做 |
+| **kReset**    | 重置       |
+| **kDefault**  | 默认颜色   |
+| **kRgb**      | RGB颜色    |
+| **kBlack**    | Black      |
+| **kRed**      | Red        |
+| **kGreen**    | Green      |
+| **kBrown**    | Brown      |
+| **kBlue**     | Blue       |
+| **kMagenta**  | Magenta    |
+| **kCyan**     | Cyan       |
+| **kWhite**    | White      |
+
+| **ColorTarget**      | **描述**   |
+|----------------------|------------|
+| **kForeground(kFg)** | 前景色     |
+| **kBackground(kBg)** | 背景色     |
+
 #### 输出流
 
 ```cpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// 输出红色字体后又恢复默认字体颜色
+// 输出红色字体后再恢复默认字体颜色
 
-constexpr auto default_fore = AnsiColor(ColorSpec::kDefault);
+constexpr auto default_fg = AnsiColor(ColorSpec::kDefault);
 
 std::stringstream ss;
-ss << AnsiColor(ColorSpec::kRed) << "red" << default_fore;
+ss << AnsiColor(ColorSpec::kRed) << "red" << default_fg;
 
 std::cout << ss.str() << std::endl;
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// 输出灰色背景后又重置
+// 输出灰色背景后再重置
 
-auto gray_back = AnsiColor({127, 127, 127}, ColorTarget::kBackground);
-std::cout << gray_back << "gray background" << AnsiColor() << std::endl;
+auto gray_bg = AnsiColor({127, 127, 127}, ColorTarget::kBg);
+std::cout << gray_bg << "gray background" << AnsiColor() << std::endl;
 
 ```
 

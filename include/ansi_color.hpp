@@ -30,7 +30,8 @@
 
 namespace ansi_color {
 enum class ColorSpec {
-    kReset = 0,
+    kNone = 0,
+    kReset,
     kDefault,
     kRgb,
 
@@ -47,6 +48,9 @@ enum class ColorSpec {
 enum class ColorTarget {
     kForeground = 0,
     kBackground,
+
+    kFg = kForeground,
+    kBg = kBackground,
 };
 
 namespace detail {
@@ -94,25 +98,28 @@ inline int _toConsoleCode(ColorSpec _cs) {
 } // ansi_color::detail
 
 struct AnsiColor {
-    ColorTarget   target_ = ColorTarget::kForeground;
+    ColorTarget   target_ = ColorTarget::kFg;
     detail::Color color_;
 
     constexpr AnsiColor() = default;
     constexpr AnsiColor(detail::Color const & _c,
-                        ColorTarget _tgt = ColorTarget::kForeground)
+                        ColorTarget _tgt = ColorTarget::kFg)
         : target_(_tgt), color_(_c) {}
 };
 
 inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
-    ost << '\033';
-    if (ac.color_.spec_ == ColorSpec::kReset) {
-        return (ost << "[0m");
+    ost << "\033[";
+    switch (ac.color_.spec_) {
+        case ColorSpec::kNone:  return ost;
+        case ColorSpec::kReset: return (ost << "0m");
+        default: break;
     }
+
     // foreground: 30-39
     // background: 40-49
     int co        = detail::_toConsoleCode(ac.color_.spec_);
-    int co_offset = (ac.target_ == ColorTarget::kBackground) ? 40 : 30;
-    ost << '[' << (co + co_offset);
+    int co_offset = (ac.target_ == ColorTarget::kBg) ? 40 : 30;
+    ost << (co + co_offset);
     if (co == 8) {
         // use rgb color
         auto & _rgb = ac.color_.rgb_;
@@ -121,6 +128,7 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
             << int(_rgb.green_) << ';'
             << int(_rgb.blue_); 
     }
+
     ost << 'm';
     return ost;
 }

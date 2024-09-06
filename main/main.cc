@@ -14,11 +14,16 @@ int main()
     std::cout << ss.str();
 
     constexpr auto kTianyiBlue = AnsiColor({102, 204, 255});
-    auto white_background      = AnsiColor(ColorSpec::kWhite, ColorTarget::kBackground);
-    std::cout << kTianyiBlue << "3 hello" << white_background << " world" << std::endl;
+    auto           white_bg    = AnsiColor(ColorSpec::kWhite, ColorTarget::kBg);
+    std::cout
+        << kTianyiBlue << "3 hello"
+        << white_bg << " world"
+        << std::endl;
 
-    std::cout << AnsiColor(ColorSpec::kDefault) << "4 hello"
-        << AnsiColor(ColorSpec::kReset) << " world" << std::endl;
+    std::cout
+        << AnsiColor(ColorSpec::kDefault) << "4 hello"
+        << AnsiColor(ColorSpec::kReset) << " world"
+        << std::endl;
 
     std::cout << "5 hello world" << std::endl;
 
