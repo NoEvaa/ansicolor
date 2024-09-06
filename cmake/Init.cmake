@@ -6,14 +6,6 @@ if("${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_SOURCE_DIR}")
     set(${PROJECT_NAME}_IS_MAIN 1)
 endif()
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-# fPIC
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 # Init build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -25,6 +17,14 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 endif()
 
 if(${PROJECT_NAME}_IS_MAIN)
+    # Set C++ standard
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+
+    # fPIC
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
     # Set postfix for debug binary file
     # ex. proj.dll -> proj_d.dll
     set(CMAKE_DEBUG_POSTFIX _d)

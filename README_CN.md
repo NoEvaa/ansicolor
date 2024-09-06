@@ -2,13 +2,17 @@
 
 [English](README.md)
 
+`ansicolor`是一个极小的、仅有一个头文件的C++库，它能用以在支持`console code`的终端上实现彩色输出。
+
 ## 适用场景
 
 - 控制台输出彩色文本
 
+- 支持ANSI颜色标准的终端
+
 ## 特色
 
-- 轻量级：仅一个头文件
+- 轻量级：仅有一个百行头文件
 
 - 简单便捷：仅需使用一个结构体以及两个枚举类
 
@@ -28,7 +32,9 @@ sh build.sh
 ```cpp
 #include <ansi_color.hpp>
 
-using namespace ansi_color;
+using ansi_color::AnsiColor;
+using ansi_color::ColorSpec;
+using ansi_color::ColorTarget;
 
 ```
 
@@ -50,7 +56,7 @@ AnsiColor(ColorSpec::kWhite, ColorTarget::kBackground);
 
 | **ColorSpec** | **描述**   |
 |---------------|------------|
-| **kNone**     | 什么都不做 |
+| **kNone**     | 无所作为   |
 | **kReset**    | 重置       |
 | **kDefault**  | 默认颜色   |
 | **kRgb**      | RGB颜色    |
