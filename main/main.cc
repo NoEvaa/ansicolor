@@ -8,6 +8,8 @@ int main()
 
     std::cout << "1 hello";
     std::cout << AnsiColor(ColorSpec::kRed) << " world" << std::endl;
+
+    std::cout << AnsiColor(ColorSpec::kNone) << "hi world" << std::endl;
     
     std::stringstream ss;
     ss << "2 hello" << AnsiColor(ColorSpec::kReset) << " world" << std::endl;
@@ -41,6 +43,13 @@ int main()
     COUT_COLOR(Default);
 
 #undef COUT_COLOR
+
+	std::uintptr_t address = 0x123456789;
+	std::cout << "Address "
+        << std::showbase << std::hex << AnsiColor{ColorSpec::kBlue}
+        << address << std::endl;
+
+    std::cout << "number: " << std::dec << std::showpos << AnsiColor{ColorSpec::kRed} << 123 << std::endl;
 
     return 0;
 }
