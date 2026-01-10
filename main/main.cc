@@ -20,6 +20,7 @@ int main()
     std::cout
         << kTianyiBlue << "3 hello"
         << white_bg << " world"
+        << 255
         << std::endl;
 
     std::cout

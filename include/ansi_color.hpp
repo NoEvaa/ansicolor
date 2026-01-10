@@ -115,8 +115,8 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
         default: break;
     }
 
-    // "\033[;2;000;000;000m"
-    constexpr std::size_t kBufSize = 17;
+    // "\033[00;2;000;000;000m"
+    constexpr std::size_t kBufSize = 19;
     char buf[kBufSize];
 
     char * p = buf;
