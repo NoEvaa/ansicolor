@@ -115,8 +115,12 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
         default: break;
     }
 
-    // "\033[;2;000;000;000m"
-    constexpr std::size_t kBufSize = 17;
+    // "\033[00;2;000;000;000m"
+    constexpr std::size_t kBufSize = 
+        4 +         // \033[00
+        3 +         // ;2;
+        3 * 3 + 2 + // 000;000;000
+        1;          // m
     char buf[kBufSize];
 
     char * p = buf;
@@ -127,7 +131,7 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
     // background: 40-49
     int co        = detail::_toConsoleCode(ac.color_.spec_);
     int co_offset = (ac.target_ == ColorTarget::kBg) ? 40 : 30;
-    p += std::to_chars(p, p + 2, co + co_offset).ptr - p;
+    p = std::to_chars(p, p + 2, co + co_offset).ptr;
 
     // rgb mode
     if (co == 8) {
@@ -135,11 +139,11 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
         *p++ = ';';
         *p++ = '2';
         *p++ = ';';
-        p += std::to_chars(p, p + 3, rgb.red_  ).ptr - p;
+        p = std::to_chars(p, p + 3, rgb.red_  ).ptr;
         *p++ = ';';
-        p += std::to_chars(p, p + 3, rgb.green_).ptr - p;
+        p = std::to_chars(p, p + 3, rgb.green_).ptr;
         *p++ = ';';
-        p += std::to_chars(p, p + 3, rgb.blue_ ).ptr - p;
+        p = std::to_chars(p, p + 3, rgb.blue_ ).ptr;
     }
 
     *p++ = 'm';
