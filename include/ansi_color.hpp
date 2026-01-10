@@ -117,10 +117,10 @@ inline std::ostream & operator<<(std::ostream & ost, AnsiColor const & ac) {
 
     // "\033[00;2;000;000;000m"
     constexpr std::size_t kBufSize = 
-        4 + // \033[00
-        3 + // ;2;
+        4 +         // \033[00
+        3 +         // ;2;
         3 * 3 + 2 + // 000;000;000
-        1; // m
+        1;          // m
     char buf[kBufSize];
 
     char * p = buf;
